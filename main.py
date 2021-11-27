@@ -28,8 +28,9 @@ while True:
     try:
         for event in longpoll.listen():
             if event.type == VkBotEventType.WALL_POST_NEW:
-                log(f'Обнаружена новая запись на стене: wall{event.object["owner_id"]}_{event.object["id"]}')
-                post(event.object["owner_id"], event.object["id"])
+                if event.object.post_type == "post":
+                    log(f'Обнаружена новая запись на стене: wall{event.object["owner_id"]}_{event.object["id"]}')
+                    post(event.object["owner_id"], event.object["id"])
 
     except Exception as e:
         log(f"Я упал((\nException: {e}")
